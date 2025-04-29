@@ -31,4 +31,4 @@ jobs:
     - name: Intalar Surge
       run: npm install --global surge
     - name: Deploy to Surge
-      run: surge ./build https://ruthless-basket.surge.sh/ --token 87f0e8027ccf06b36d5b13ef230633ed
+      run: surge ./build ${{vars.SURGE_URL}} --token ${{secrets.SURGE_TOKEN}}

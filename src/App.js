@@ -24,7 +24,7 @@ function AppContent() {
           fontSize: '24px',
           background: theme === 'light' ? '#1890ff' : '#1f1f1f'
         }}>
-          MyApp
+          Aplicación de Acceso
         </Header>
 
         <Content style={{
@@ -44,7 +44,7 @@ function AppContent() {
           background: theme === 'light' ? '#f0f2f5' : '#1f1f1f',
           color: theme === 'light' ? '#000' : '#aaa'
         }}>
-          UTE ©2025 Created by Jairo Jumbo
+          Derechos Reservados UTE ©2025 Creado por Jairo Jumbo
         </Footer>
       </Layout>
     </ConfigProvider>
