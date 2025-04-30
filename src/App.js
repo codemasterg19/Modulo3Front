@@ -1,15 +1,17 @@
 import React, { useContext } from 'react';
-import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
-import { AuthProvider } from './contexts/AuthContext';
-import ThemedComponent from './components/ThemedComponent';
-import LoginForm from './components/LoginForm';
-import { Layout, ConfigProvider } from 'antd';
-import { theme as antdTheme } from 'antd';
 
-const { Header, Content, Footer } = Layout;
+import { ThemeProvider, ThemeContext } from './contexts/ThemeContext';
+import { AuthContext, AuthProvider } from './contexts/AuthContext';
+import LoginForm from './components/LoginForm';
+import { ConfigProvider, theme as antdTheme  } from 'antd';
+import { BrowserRouter as Router, Route, Routes, Navigate } from 'react-router-dom';  // Importa Router y Routes
+
+import PrincipalPage from './pages/PrincipalPage';
+
 
 function AppContent() {
-  const { theme } = useContext(ThemeContext);
+  const { theme } = useContext(ThemeContext);  // Usamos el contexto de Theme
+  const { isAuthenticated } = useContext(AuthContext);  // Usamos el contexto de Auth
 
   return (
     <ConfigProvider
@@ -17,44 +19,20 @@ function AppContent() {
         algorithm: theme === 'light' ? antdTheme.defaultAlgorithm : antdTheme.darkAlgorithm,
       }}
     >
-      <Layout style={{ minHeight: '100vh' }}>
-        <Header style={{
-          color: '#fff',
-          textAlign: 'center',
-          fontSize: '24px',
-          background: theme === 'light' ? '#1890ff' : '#1f1f1f'
-        }}>
-          Aplicación de Acceso
-        </Header>
-
-        <Content style={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          justifyContent: 'center',
-          background: theme === 'light' ? '#fff' : '#141414',
-          transition: 'all 0.3s'
-        }}>
-          <ThemedComponent />
-          <LoginForm />
-        </Content>
-
-        <Footer style={{
-          textAlign: 'center',
-          background: theme === 'light' ? '#f0f2f5' : '#1f1f1f',
-          color: theme === 'light' ? '#000' : '#aaa'
-        }}>
-          Derechos Reservados UTE ©2025 Creado por Jairo Jumbo
-        </Footer>
-      </Layout>
+      <Router>
+        <Routes>
+          <Route path="/" element={isAuthenticated ? <Navigate to="/principal" /> : <LoginForm />} /> 
+          <Route path="/principal/*" element={isAuthenticated ? <PrincipalPage /> : <Navigate to="/" />} />
+        </Routes>
+      </Router>
     </ConfigProvider>
   );
 }
 
 function App() {
   return (
-    <ThemeProvider>
-      <AuthProvider>
+    <ThemeProvider>  
+      <AuthProvider> 
         <AppContent />
       </AuthProvider>
     </ThemeProvider>
